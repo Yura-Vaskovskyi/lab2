@@ -56,7 +56,6 @@ public class Main extends JFrame {
         chartPanel.setGraphs(graphDataList);
         chartPanel.repaint();
     }
-    // ---------------- DataTablePanel ----------------
     static class DataTablePanel extends JPanel {
         private JTable table;
         private JComboBox<String> xTypeCombo, yTypeCombo;
@@ -66,7 +65,7 @@ public class Main extends JFrame {
         public DataTablePanel() {
             setLayout(new BorderLayout());
             color = new Color((int)(Math.random()*0x1000000));
-            // Створюємо таблицю з 6 рядками і 2 колонками
+// Створюємо таблицю з 6 рядками і 2 колонками
             DefaultTableModel model = new DefaultTableModel(6, 2);
             table = new JTable(model);
             table.getColumnModel().getColumn(0).setHeaderValue("X");
@@ -74,7 +73,7 @@ public class Main extends JFrame {
             JScrollPane scrollPane = new JScrollPane(table);
             scrollPane.setPreferredSize(new Dimension(300, 150));
             add(scrollPane, BorderLayout.CENTER);
-            // Панель управління
+// Панель управління
             JPanel controlPanel = new JPanel();
             controlPanel.setLayout(new GridLayout(8, 2, 5, 5)); // +1 рядок для кнопки "Відкрити окремо"
             xTypeCombo = new JComboBox<>(new String[]{"Цілі числа", "Дробові"});
@@ -102,7 +101,7 @@ public class Main extends JFrame {
             controlPanel.add(removeRowButton);
             controlPanel.add(openChartButton); // додаємо кнопку до панелі
             add(controlPanel, BorderLayout.SOUTH);
-            // Дії для кнопок
+// Дії для кнопок
             addRowButton.addActionListener(e -> ((DefaultTableModel)table.getModel()).addRow(new Object[]{"0","0"}));
             removeRowButton.addActionListener(e -> {
                 int row = table.getRowCount();
@@ -111,7 +110,7 @@ public class Main extends JFrame {
             });
             openChartButton.addActionListener(e -> openChartSeparately());
         }
-        // Метод отримання даних з таблиці
+// Метод отримання даних з таблиці
         public double[][] getData() {
             int rows = table.getRowCount();
             double[][] data = new double[rows][2];
@@ -124,7 +123,7 @@ public class Main extends JFrame {
             }
             return data;
         }
-        // Графік завжди лінійний
+// Графік
         public String getChartType() { return "Лінійний"; }
         public String getXType() { return (String)xTypeCombo.getSelectedItem(); }
         public String getYType() { return (String)yTypeCombo.getSelectedItem(); }
@@ -133,7 +132,7 @@ public class Main extends JFrame {
         public String getXUnit() { return xUnitField.getText(); }
         public String getYUnit() { return yUnitField.getText(); }
         public Color getColor() { return color; }
-        // Відкрити графік цієї таблиці у окремому вікні
+// Відкрити графік цієї таблиці у окремому вікні
         private void openChartSeparately() {
             double[][] data = getData();
             GraphData graphData = new GraphData(data, getChartType(), getXType(), getYType(), getXLabel(), getYLabel(), getXUnit(), getYUnit(), getColor());
@@ -161,7 +160,7 @@ public class Main extends JFrame {
             int height = getHeight();
             int padding = 60;
             int labelPadding = 40; // для підписів сітки
-            // Глобальні maxX та maxY
+// Глобальні maxX та maxY
             double maxX = Double.MIN_VALUE;
             double maxY = Double.MIN_VALUE;
             for(GraphData graph : graphs){
@@ -172,7 +171,7 @@ public class Main extends JFrame {
             }
             maxX = Math.ceil(maxX/10)*10;
             maxY = Math.ceil(maxY/10)*10;
-            // Малюємо сітку та підписи координат
+// Малюємо сітку та підписи координат
             g.setColor(Color.LIGHT_GRAY);
             int gridLines = 10;
             for(int i=0;i<=gridLines;i++){
@@ -187,11 +186,11 @@ public class Main extends JFrame {
                 g.drawString(xLabel, x-10, height-padding+15);
                 g.setColor(Color.LIGHT_GRAY);
             }
-            // Малюємо осі
+// Малюємо осі
             g.setColor(Color.BLACK);
             g.drawLine(padding, height-padding, width-padding, height-padding);
             g.drawLine(padding, padding, padding, height-padding);
-            // Малюємо лише лінійні графіки
+// Малюємо лише лінійні графіки
             for(GraphData graph : graphs){
                 g.setColor(graph.color);
                 for(int i=0;i<graph.data.length-1;i++){
@@ -208,7 +207,7 @@ public class Main extends JFrame {
                         g.drawString("("+graph.data[i+1][0]+","+graph.data[i+1][1]+")", x2+5, y2-5);
                 }
             }
-            // Відображення назв осей та одиниць окремо, щоб не накладалися
+// Відображення назв осей та одиниць окремо, щоб не накладалися
             if(!graphs.isEmpty()){
                 GraphData g0 = graphs.get(0);
                 g.setColor(Color.BLACK);
